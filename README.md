@@ -20,7 +20,13 @@ Key results reproduced by this codebase:
 
 ```
 .
-├── GRAPE_code/                      # Quantum optimal control via GRAPE
+├── direct_optimization/             # Direct trajectory optimization (Julia/Piccolo.jl)
+│   ├── ZXZ.jl                       # Main optimization script
+│   ├── src/                         # Module: trajectory rollout and plotting
+│   ├── Project.toml                 # Julia dependencies
+│   └── README.md                    # Setup and usage instructions
+│
+├── GRAPE_code/                      # Quantum optimal control via GRAPE (Python/JAX)
 │   ├── GRAPE_PiecewiseConstant_Script.py   # Main optimization script
 │   └── GRAPE_HelperFunctions.py            # Helper utilities for GRAPE
 │
@@ -44,6 +50,10 @@ Key results reproduced by this codebase:
 │
 └── README.md
 ```
+
+### `direct_optimization/`
+
+Implementation of **direct trajectory optimization** for quantum optimal control using [Piccolo.jl](https://github.com/harmoniqs/Piccolo.jl). Unlike GRAPE, the direct method treats the full quantum trajectory (unitaries and controls at every time step) as optimization variables, with the Schrödinger equation enforced as a constraint. `ZXZ.jl` is the main entry point that optimizes smooth control pulses to realize target ZXZ Hamiltonian evolution. Requires Julia ≥ 1.10. See [`direct_optimization/README.md`](direct_optimization/README.md) for setup and usage.
 
 ### `GRAPE_code/`
 
@@ -102,6 +112,15 @@ archivePrefix = {arXiv},
 
 For questions, please contact Hong-Ye Hu (hongyehu.physics@gmail.com).
 
-# Direct Optimization
-The direct method is partially open sourced in [https://github.com/harmoniqs/ZXZ-atoms/blob/main/ZXZ.ipynb]
+## Direct Optimization
+
+The direct trajectory optimization method is implemented in [`direct_optimization/`](direct_optimization/). To run:
+
+```bash
+cd direct_optimization
+julia --project=. -e 'using Pkg; Pkg.instantiate()'
+julia --project=. ZXZ.jl
+```
+
+See also: [harmoniqs/ZXZ-atoms](https://github.com/harmoniqs/ZXZ-atoms) for a notebook version.
 
